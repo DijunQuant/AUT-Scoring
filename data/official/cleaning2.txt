@@ -1,0 +1,20 @@
+brick
+-doorstopper, doorstop
+
+cup
+-audioif, audio if
+-sandcastle, sand castle
+
+key
+-jewlery, jewelry
+
+pencil
+-lockpick
+
+shoe
+-tripwire, trip wire
+-swatter, swat
+
+chair
+-footrest, foot rest
+-eachother, each other
