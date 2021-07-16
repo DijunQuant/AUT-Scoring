@@ -1,0 +1,58 @@
+Algo Design Brainstorming:
+* Word2vec, average similarity between words in two responses
+* Problems:
+    * phrases vs words
+    * compare between just two responses or the whole list of responses
+* Algo Idea
+    * find similarity between prompt and average of word in response
+    * the average is the value that represents novelty
+* Things to Look Into:
+    * doc2Vec - look into sentence vector
+        * follow similar logic to above but no need to average for multiple words
+    * Word2Vec + SIF + Cosine Similarity
+    * Word2Vec + WMD 
+* Course of Actions for Missing Words/Misspellings?
+    * hand remove?
+* What to do when whole phrase stop words
+    * make 0
+
+To Do List
+- [x] write preprocessing methods
+- [x] write out initial algo
+- [x] implement first algo idea
+- [x] set up work environment on macbook
+- [x] look into Word2Vec + SIF + Cosine Similarity
+- [x] set up excel sheet download with different sheets
+- [x] use ukwac semantic space for cosine distance
+- [x] set up element wise multiplied vectors for cosine distance algo
+- [x] set up phrase minima vector for cosine distance algo 
+- [x] Compare the ewm and phrase minima algos with SemDis
+- [x] Get a sense of the effect of the compositions
+- [x] 1 - to get the distance
+- [x] Remove the word could 
+    - had to lowercase first and then remove stop words
+- [x] write clustering method
+    - count vectorizer and kmeans
+- [x] update clustering method to use cosine distance not euclidean 
+    - changed from scikit learn to cosine distance from NLTK 
+- [x] write algo to average novelty scores of responses in the same category
+    - do for both ewm and minima
+- [x] use the elbow method to figure out how many clusters to use
+- [x] download and upload all the semantic spaces from SemDis
+- [x] update methods to change semantic spaces
+- [x] copy semantic spaces to mac
+- [x] set up scripts to pass in official data for pc and mac
+- [x] add .DS_Store to gitignore
+- [x] get SemDis results for all 6 different semantic spaces with the official data
+- [ ] compare performance on the 6 different semantic spaces
+    - correlation tests for coefficient and significance
+- [x] update stop words list to include "use" and "thing"
+- [ ] figure out how many times to run kmeans
+    - cross validation
+    - then averaging the results of all the iterations
+- [ ] figure out way to automate the number of clusters used in each run
+ 
+Don't look into unless you have time
+- [ ] look into doc2vec 
+- [ ] look into Word2Vec + WMD 
+- [ ] look at https://github.com/PrincetonML/SIF for better SIF 

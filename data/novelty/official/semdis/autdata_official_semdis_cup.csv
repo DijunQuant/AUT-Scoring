@@ -1,4 +1,4 @@
-id,rating,creativity,response,response_nofill,item,item_nofill,SemDis_cbowukwacsubtitle_nf_m,SemDis_cbowsubtitle_nf_m,SemDis_cbowBNCwikiukwac_nf_m,SemDis_TASA_nf_m,SemDis_glove_nf_m,SemDis_MEAN,SemDis_factor
+id,novelty_1,novelty_2,response,response_nofill,item,item_nofill,SemDis_cbowukwacsubtitle_nf_m,SemDis_cbowsubtitle_nf_m,SemDis_cbowBNCwikiukwac_nf_m,SemDis_TASA_nf_m,SemDis_glove_nf_m,SemDis_MEAN,SemDis_factor
 1159,1,1,drink things out of,drink things,Cup,cup,1.00898,0.99312,0.92786,0.85844,1.22987,1.00365,0.07605
 1159,2,3,to trap bugs in,trap bugs,Cup,cup,1.04465,0.92238,0.95697,0.95587,1.09579,0.99513,0.08788
 1159,2,3,to stack with,stack,Cup,cup,0.93031,0.86421,0.96848,0.86841,0.99368,0.92502,-0.00602

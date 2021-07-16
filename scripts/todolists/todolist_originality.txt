@@ -1,0 +1,21 @@
+Algo Design Brainstorming:
+* Algo Design w/o scikit-learn
+    * asdlfjakl;fjka
+    * asdfasf
+
+* Algo Design w/ scikit-learn
+
+To Do List
+- [x] write basic algorithm, sum of term frequency
+    - frequency based on all phrases
+- [x] write tfidf clustering method 
+    - repurpose for flexibility
+- [x] write counter vectorizer clustering method
+- [x] write method to score responses by frequency
+    - number of responses in a cluster/number of total responses subtracted from 1
+    - subtract from 1 to get the reverse mapping
+- [x] experiment with a greater cluster size
+- [x] update stop words list to include "use" and "thing"
+- [ ] figure out how many times to run kmeans
+    - cross validation
+    - then averaging the results of all the iterations

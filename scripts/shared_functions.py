@@ -33,6 +33,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 # In[2]:
 
 
+# stop stopwords list as global variable
 global stopwords_edited
 
 
@@ -41,6 +42,7 @@ global stopwords_edited
 # In[3]:
 
 
+# add special cases to stop words list
 stopwords_edited = list(STOP_WORDS)
 stopwords_edited.append("thing")
 stopwords_edited.append("use")
@@ -52,20 +54,27 @@ stopwords_edited.append("things")
 
 # method to clean the responses
 def process_text(text, stopwords_list, join_list):
-    # tokenize text, lemmanize words, removing punctuation, remove stop words, lowercase all words
-
-    # hardcorded for special situations
+    # replace symbols with spaces
     text = re.sub("/|-"," ", text)
+    
+    # remove punctuation
     text = text.translate(str.maketrans('','',string.punctuation))
+    
+    # tokenize the phrase
     tokens = word_tokenize(text)
 
+    # lowercase all tokens
     tokens = [w.lower() for w in tokens]
     
+    # remove stopwords
     tokens = [word for word in tokens if word not in stopwords_list]
 
+    # lemmatize words if needed
     lemmatizer = WordNetLemmatizer()
     tokens = [lemmatizer.lemmatize(t) for t in tokens]
 
+    # if parameter true, rejoins the phrases
+    # returns a string, else returns a list
     if join_list:
         tokens = ' '.join(tokens)
  
@@ -89,7 +98,9 @@ def get_cleaned_responses_df(df, stopwords_list, join_list):
     # add list as column in df
     df_processed['response_processed'] = responses
     
+    # remove rows where responses were only stop words
     df_processed = df_processed[df_processed.astype(str)['response_processed'] != '[]']
+    df_processed = df_processed[df_processed.response_processed != '']
 
     return df_processed
 
@@ -169,6 +180,7 @@ def get_counts_vector(num_clusters, responses, display_clusters):
     # df of the clusters and the 
     clusters_df = pd.DataFrame(list(results_dict.items()),columns = ['category','responses']) 
     
+    # show clusters df if parameter true
     if display_clusters:
         display(clusters_df)
     
@@ -206,6 +218,7 @@ def get_tfidf_vector(num_clusters, responses, display_clusters):
     # df of the clusters and the 
     clusters_df = pd.DataFrame(list(results_dict.items()),columns = ['category','responses']) 
     
+    # show clusters df if parameter true
     if display_clusters:
         display(clusters_df)
     

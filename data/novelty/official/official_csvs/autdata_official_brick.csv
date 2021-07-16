@@ -1,4 +1,4 @@
-﻿id,item,response,rating,creativity
+﻿id,item,response,novelty_1,novelty_2
 1094,Brick,build a structure,1,1
 1094,Brick,throw and break a window,3,2
 1094,Brick,use as a stepping stool,3,3
