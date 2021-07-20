@@ -29,6 +29,8 @@ from nltk.cluster.kmeans import KMeansClusterer
 
 from sklearn.metrics.pairwise import cosine_similarity
 
+import random
+
 
 # In[2]:
 
@@ -164,8 +166,11 @@ def get_counts_vector(num_clusters, responses, display_clusters):
 #     visualizer.show()
 
     # nltk kmeans cosine distance implementation
+    rng = random.Random()
+    rng.seed(123)
     number_of_clusters = num_clusters
-    kmeans = KMeansClusterer(number_of_clusters, distance=nltk.cluster.util.cosine_distance, repeats=25, avoid_empty_clusters=True)
+    kmeans = KMeansClusterer(number_of_clusters, distance=nltk.cluster.util.cosine_distance, 
+                             repeats=13, rng = rng, avoid_empty_clusters=True)
     assigned_clusters = kmeans.cluster(word_count.toarray(), assign_clusters=True)
 
     # cluster results scikit-learn
@@ -182,7 +187,8 @@ def get_counts_vector(num_clusters, responses, display_clusters):
     
     # show clusters df if parameter true
     if display_clusters:
-        display(clusters_df)
+        with pd.option_context('display.max_rows', None, 'display.max_columns', None):  # more options can be specified also
+            print(clusters_df)
     
     return clusters_df
 
@@ -202,8 +208,11 @@ def get_tfidf_vector(num_clusters, responses, display_clusters):
 #     visualizer.show()
 
     # nltk kmeans cosine distance implementation
+    rng = random.Random()
+    rng.seed(123)
     number_of_clusters = num_clusters
-    kmeans = KMeansClusterer(number_of_clusters, repeats=25, distance=nltk.cluster.util.cosine_distance, avoid_empty_clusters=True)
+    kmeans = KMeansClusterer(number_of_clusters, distance=nltk.cluster.util.cosine_distance, 
+                             repeats=13, rng = rng, avoid_empty_clusters=True)
     assigned_clusters = kmeans.cluster(tfidf.toarray(), assign_clusters=True)
         
     # cluster results scikit-learn
@@ -220,7 +229,8 @@ def get_tfidf_vector(num_clusters, responses, display_clusters):
     
     # show clusters df if parameter true
     if display_clusters:
-        display(clusters_df)
+        with pd.option_context('display.max_rows', None, 'display.max_columns', None):  # more options can be specified also
+            print(clusters_df)
     
     return clusters_df
 
