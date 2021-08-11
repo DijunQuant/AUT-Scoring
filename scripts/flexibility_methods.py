@@ -48,6 +48,7 @@ def get_flexibility_score(flexibility_rating_df, num_clusters, responses, displa
     # has clusters and their respective responses
     clusters = dict(zip(clusters_df.category, clusters_df.responses))
     
+    # remove line below
     flex_df_cleaned = flexibility_rating_df[flexibility_rating_df.response_processed != '']
     participants = get_id_list(flex_df_cleaned)
     participants_responses_list = list(zip(flex_df_cleaned.id, flex_df_cleaned.response_processed))

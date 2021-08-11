@@ -151,6 +151,7 @@ def get_cosine_distance(feature_vec_1, feature_vec_2):
 
 # In[8]:
 
+# This function is misnamed, get_counts_vec_clusters
 
 # clusters the responses
 # get a df of the clusters and their respective phrases
@@ -195,6 +196,7 @@ def get_counts_vector(num_clusters, responses, display_clusters):
 
 # In[9]:
 
+# This function is misnamed, get_tfidf_vec_clusters
 
 def get_tfidf_vector(num_clusters, responses, display_clusters):
     # initialize CountVectorizer object
