@@ -6,7 +6,7 @@ import re
 
 from nltk.stem import WordNetLemmatizer
 import string
-
+from IPython.display import display
 from spacy.lang.en.stop_words import STOP_WORDS
 
 from sklearn.feature_extraction.text import CountVectorizer
@@ -20,7 +20,7 @@ from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score
 
 from sklearn.metrics.pairwise import cosine_similarity
-
+import scipy.stats
 import random
 import numpy.linalg as la
 
@@ -33,7 +33,11 @@ stopwords_edited.append("thing")
 stopwords_edited.append("use")
 stopwords_edited.append("things")
 
-
+spNameMap={'cbow_6_ukwac_subtitle':'cbowu',
+           'cbow_subtitle':'cbows',
+           'ukwac':'cboww',
+           'TASA':'tasa',
+           'glove_6B':'glov'}
 
 def lemmatize(text, stopwords_list):
     # replace symbols with spaces
@@ -101,6 +105,25 @@ def get_minvec(prompt, phrase_list, sem_space):
     else:
         # return the max cosine distance
         return max(distances_list, default=0)
+# get word in phrase that has the least distance from the prompt
+def get_weightedscore(prompt, phrase_list, sem_space):
+    distances_list = []
+    # get prompt vector
+    prompt_vector = np.array(sem_space.loc[prompt].values.tolist())
+
+    # create list of cosine distances
+    for term in phrase_list:
+        try:
+            distances_list.append(get_cosine_distance(prompt_vector, np.array(sem_space.loc[term].values.tolist())))
+        except:
+            print('cannot find '+term )
+    if len(distances_list)==0:
+        return np.nan
+    else:
+        # return the max cosine distance
+        rank=scipy.stats.rankdata(distances_list)
+        weight=rank/np.sum(rank)
+        return np.sum(np.dot(weight,distances_list))
 
 # get cosine sim from prompt and ewm
 def get_ewm_cosdist(prompt, response, sem_space):
@@ -206,6 +229,8 @@ def calc_diversity(vector_list):
     #they are equivalent in some sense, root mean squre might behave sligthly better as the diversity metric
     return np.max(dist),np.sqrt(np.mean(np.array(dist)**2))
 def dispersion_vectors(responses,sp):
+    if len(responses)<2:
+        return np.nan,np.nan
     response_vector = [get_ew_multiplied_vector(x, sp) for x in responses]
     response_vector = [x for x in response_vector if type(x)!=float]
     return calc_diversity(response_vector)
@@ -266,3 +291,33 @@ def getMinVolEllipse(P, tolerance=0.01):
 
         #return (center, radii, rotation)
         return np.exp(np.mean(np.log(radii)))
+
+
+def testCorrDiff(df,colBenchmark,col1,col2):
+    r13=df[[col1,colBenchmark]].corr().values[0,1]
+    r23=df[[col2,colBenchmark]].corr().values[0,1]
+    r12=df[[col1,col2]].corr().values[0,1]
+    n=len(df[[col1,col2,colBenchmark]].dropna())
+    t_dist = scipy.stats.t(n-3)
+    tdif=(r13-r23)*np.sqrt((n-3)*(1+r12)/(2*(1-r13**2-r23**2+2*r13*r23*r12)))
+    return tdif,2*(1-t_dist.cdf(np.abs(tdif)))
+
+def printTriNiceCorrTable(data,col):
+    rho =data.corr().loc[col,col]
+    pval = data.corr(method=lambda x, y: scipy.stats.pearsonr(x, y)[1]).loc[col,col]
+    #display(np.round(pval,2))
+    p = pval.applymap(lambda x: ''.join(['*' for t in [0.01,0.05,0.1] if x<=t]))
+    #display(p)
+    newDF=(rho.round(2).astype(str) + p)
+    for i in range(len(col)):
+        for j in range(i,len(col)):
+            newDF.iloc[i,j]=''
+    display(newDF.iloc[1:,:-1])
+
+def printNiceCorrTable(data, col1, col2):
+        rho = data.corr().loc[col1, col2]
+        pval = data.corr(method=lambda x, y: scipy.stats.pearsonr(x, y)[1]).loc[col1, col2]
+        # display(np.round(pval,2))
+        p = pval.applymap(lambda x: ''.join(['*' for t in [0.01, 0.05, 0.1] if x <= t]))
+        # display(p)
+        display(rho.round(2).astype(str) + p)
